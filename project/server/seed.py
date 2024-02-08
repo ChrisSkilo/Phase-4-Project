@@ -36,7 +36,6 @@ with app.app_context():
             leave_deduction_rate=fake.random_int(min=3, max=5),
             bonus_rate=fake.random_int(min=0, max=2),
             tax_deduction_rate=fake.random_int(min=6, max=8),
-            calculated_salary=fake.random_int(min=2000, max=5000),
             employee=employee,
         )
         db.session.add(payroll)

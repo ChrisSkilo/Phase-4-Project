@@ -97,8 +97,76 @@ class EmployeesByID(Resource):
 api.add_resource(EmployeesByID, '/employees/<int:id>')
 
 class Payrolls(Resource):
+    def post(self):
+        try:
+            # Get JSON data and add to the database
+            data = request.get_json()
+            employee_id = data.get('employee_id')
+            month = data.get('month')
+            year = data.get('year')
+            hourly_rate = data.get('hourly_rate')
+            leave_deduction_rate = data.get('leave_deduction_rate')
+            bonus_rate = data.get('bonus_rate')
+            tax_deduction_rate = data.get('tax_deduction_rate')
+
+            # Fetch total worked hours for the specified month and year by employee ID 
+            total_worked_hours = (
+                db.session.query(func.sum(Attendance.hours_worked))
+                .filter(
+                    Attendance.employee_id == employee_id,
+                    func.extract('month', Attendance.date) == month,
+                    func.extract('year', Attendance.date) == year
+                )
+                .scalar() or 0  # Use 0 if there are no records
+            )
+
+            # Create a new Payroll entry with total worked hours populated
+            new_payroll = Payroll(
+                employee_id=employee_id,
+                month=month,
+                year=year,
+                total_hours_worked=total_worked_hours,
+                hourly_rate=hourly_rate,
+                leave_deduction_rate=leave_deduction_rate,
+                bonus_rate=bonus_rate,
+                tax_deduction_rate=tax_deduction_rate
+
+            )
+
+            db.session.add(new_payroll)
+            db.session.commit()
+
+            response_dict = new_payroll.to_dict()
+
+            response = make_response(jsonify(response_dict), 201)
+            return response
+
+        except Exception as e:
+            error_dict = {"error": "Validation errors", "details": str(e)}
+            response = make_response(jsonify(error_dict), 400)
+            db.session.rollback()
+            return response
+
+api.add_resource(Payrolls, '/payrolls')
+
+class PayrollsByID(Resource):
+    def delete(self,id):
+        res_id = Payroll.query.get(id)
+        if not res_id:
+            return {"error": "Payroll not found"}
+        else:
+            db.session.delete(res_id)
+            db.session.commit()
+
+            response = make_response(jsonify('Success: id deleted'))
+            return response
+        
+api.add_resource(PayrollsByID, '/payrolls/<int:id>')
+
+
+class Salaries(Resource):
     def get(self):
-        response_dict= [n.dict_() for n in Payroll.query.all()]
+        response_dict= [n.dict_() for n in Salary.query.all()]
         response= make_response(jsonify(response_dict), 200)
         return  response
     
@@ -158,24 +226,24 @@ class Payrolls(Resource):
         )
 
         # Save the calculated salary in the Payroll table
-        new_payroll = Payroll(
+        new_salary = Salary(
             employee_id=employee_id,
-            month=month,
-            year=year,
-            total_hours_worked=adjusted_total_worked_hours,  
-            # leave_taken=leave_days > 0,  # Check if leave was taken on any day
-            hourly_rate=employee.payrolls[0].hourly_rate,
-            leave_deduction_rate=employee.payrolls[0].leave_deduction_rate,
-            bonus_rate=employee.payrolls[0].bonus_rate,
+            # month=month,
+            # year=year,
+            # total_hours_worked=adjusted_total_worked_hours,  
+            # # leave_taken=leave_days > 0,  # Check if leave was taken on any day
+            # hourly_rate=employee.payrolls[0].hourly_rate,
+            # leave_deduction_rate=employee.payrolls[0].leave_deduction_rate,
+            # bonus_rate=employee.payrolls[0].bonus_rate,
             calculated_salary=calculated_salary
         )
 
-        db.session.add(new_payroll)
+        db.session.add(new_salary)
         db.session.commit()
 
         return jsonify({'message': 'Salary calculated and saved successfully'})
 
-api.add_resource(Payrolls, '/payrolls')
+api.add_resource(Salaries, '/salaries')
 
 class AttendanceResource(Resource):
     def post(self):

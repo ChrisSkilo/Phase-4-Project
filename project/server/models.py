@@ -63,7 +63,7 @@ class Payroll(db.Model, SerializerMixin):
     leave_deduction_rate = db.Column(db.Float, CheckConstraint('leave_deduction_rate >= 3 AND leave_deduction_rate <= 5'), nullable=False)
     bonus_rate = db.Column(db.Float, CheckConstraint('bonus_rate < 3'), nullable=False)
     tax_deduction_rate = db.Column(db.Float, CheckConstraint('tax_deduction_rate >= 6 AND tax_deduction_rate <= 8'), default=0.0, nullable=False)
-    calculated_salary = db.Column(db.Float, nullable=True)
+    
 
     employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=False)
     
@@ -110,4 +110,22 @@ class Attendance(db.Model, SerializerMixin):
             raise ValueError("Invalid hours_worked. It should be between 0 and 9.")
         return hours_worked
 
-    
+
+           #SALARY MODEL 
+class Salary(db.Model, SerializerMixin):
+    __tablename__ = 'salaries'
+
+    serialize_rules = ('-employee.salaries', '-employee.payrolls', '-employee.attendances')
+
+    id = db.Column(db.Integer, primary_key=True)
+    calculated_salary = db.Column(db.Float, nullable=False)
+
+    employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable=False)
+    employee = db.relationship('Employee', backref='salaries', lazy=True)
+
+    @validates('employee_id')
+    def validate_employee_id(self, key, employee_id):
+        employee = Employee.query.get(employee_id)
+        if not employee:
+            raise ValueError(f"Employee with ID {employee_id} does not exist.")
+        return employee_id
