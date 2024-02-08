@@ -1,8 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+function AddEmployeeForm(){
+  const[name, setname] = useState([]);
+  const[department, setDepartment] = useState('');
+  const[position, setPosition] = useState('');
+}
+  function handleSubmit(e){
+    e.preventDefault();
+    fetch("/employees"),{
+      method: "POST",
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name:name,
+        department:department,
+        position:position
 
-const AddEmployee = () => {
+    }),
+  }
+     .then((response) => response.json())
+     .then((data)=> console.log(data))
+}
+  const AddEmployee = () => {
   //  add state and functions for form handling here
 
   const handleSubmit = (e) => {
