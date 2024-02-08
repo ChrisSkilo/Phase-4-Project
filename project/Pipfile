@@ -13,6 +13,8 @@ sqlalchemy-serializer = "*"
 flask-restful = "*"
 importlib-metadata = "6.0.0"
 importlib-resources = "5.10.0"
+flask-cors = "*"
+
 
 [requires]
 python_version = "3.10.12"

@@ -10,7 +10,7 @@ from sqlalchemy import func
 
 
 
-from models import db, User, Employee, Payroll, Attendance
+from models import db, User, Employee, Payroll, Attendance, Salary
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -176,8 +176,8 @@ class Salaries(Resource):
 
         # Retrieve relevant data for calculation
         employee_id = data['employee_id']
-        month = data['month']
-        year = data['year']
+        month = int(data['month'])
+        year = int(data['year'])
         # tax_deduction_rate = data['tax_deduction_rate']
 
         # Validate that the provided month and year are not in the future
@@ -228,20 +228,13 @@ class Salaries(Resource):
         # Save the calculated salary in the Payroll table
         new_salary = Salary(
             employee_id=employee_id,
-            # month=month,
-            # year=year,
-            # total_hours_worked=adjusted_total_worked_hours,  
-            # # leave_taken=leave_days > 0,  # Check if leave was taken on any day
-            # hourly_rate=employee.payrolls[0].hourly_rate,
-            # leave_deduction_rate=employee.payrolls[0].leave_deduction_rate,
-            # bonus_rate=employee.payrolls[0].bonus_rate,
             calculated_salary=calculated_salary
         )
 
         db.session.add(new_salary)
         db.session.commit()
 
-        return jsonify({'message': 'Salary calculated and saved successfully'})
+        return make_response(jsonify({'message': 'Salary calculated and saved successfully'}))
 
 api.add_resource(Salaries, '/salaries')
 
@@ -256,48 +249,55 @@ class AttendanceResource(Resource):
 
             # Parse the date string into a datetime.date object
             date = datetime.strptime(date_str, "%Y-%m-%d").date()
-            
-            employee = Employee.query.filter_by(id=employee_id).first()
 
             # Validate if the employee exists
-            if not employee:
+            if not employee_id:
                 return jsonify({'error': f"Employee with ID {employee_id} does not exist."}), 404
-
+            
             # Validate hours worked
             if hours_worked < 0 or hours_worked > 9:
                 return jsonify({'error': "Invalid hours_worked. It should be between 0 and 9."}), 400
-            
+
             # Validate date not to be after the current date
             current_date = datetime.now().date()
-
+            
             # Compare the dates
             if date > current_date:
-                return jsonify({'error': "Attendance date cannot be in the future"}), 400 
-
         
+                return make_response(jsonify({'error': "Attendance date cannot be in the future"}), 400)
+
+            # Check if attendance entry already exists for the given employee and date
+            existing_attendance = Attendance.query.filter_by(employee_id=employee_id, date=date).first()
+            if existing_attendance:
+                return make_response(jsonify({'error': "Attendance entry already exists for this date"}), 400) 
+
+            
+            
             new_attendance = Attendance(
                 date=date,
                 hours_worked=hours_worked,
                 leave_taken=leave_taken,
                 employee_id=employee_id
             )
+
             db.session.add(new_attendance)
             db.session.commit()
-            
+
             response_dict = new_attendance.to_dict()
-                
+
             response= make_response(jsonify(response_dict), 201)
             return response
-        
+
         except:
             error_dict={"errors": ["validation errors"]}
             response = make_response(jsonify(error_dict), 400)
             db.session.rollback ()
             return response
-        
-        
+
+
 
 api.add_resource(AttendanceResource, '/attendance')
 
+
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run(port=5554, debug=True)

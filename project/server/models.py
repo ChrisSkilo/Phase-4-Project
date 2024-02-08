@@ -111,6 +111,17 @@ class Attendance(db.Model, SerializerMixin):
         return hours_worked
 
 
+
+    def serialize(self):
+        return {
+            'id':self.id,
+            'date': self.date,
+            'hours_worked': self.hours_worked,
+            'leave_taken': self.leave_taken,
+            'employee_id': self.employee_id
+        }
+
+
            #SALARY MODEL 
 class Salary(db.Model, SerializerMixin):
     __tablename__ = 'salaries'
