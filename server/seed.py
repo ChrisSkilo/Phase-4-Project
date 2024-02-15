@@ -13,12 +13,14 @@ with app.app_context():
     Employee.query.delete()
     Payroll.query.delete()
     Attendance.query.delete()
+    
+    departments = ['Finance', 'Engineering', 'HR', 'IT', 'Marketing']
 
     employees = []
     for _ in range(10):  
         employee = Employee(
             name=fake.name(),
-            department=fake.word(),
+            department=rc(departments),
             position=rc(['Junior', 'Senior']),
         )
         db.session.add(employee)
