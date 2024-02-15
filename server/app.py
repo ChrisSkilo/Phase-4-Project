@@ -10,7 +10,7 @@ from sqlalchemy import func
 
 
 
-from models import db, User, Employee, Payroll, Attendance, Salary
+from models import db, Employee, Payroll, Attendance, Salary
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -97,6 +97,14 @@ class EmployeesByID(Resource):
 api.add_resource(EmployeesByID, '/employees/<int:id>')
 
 class Payrolls(Resource):
+    def get(self):
+        response_dict= [n.to_dict() for n in Payroll.query.all()]
+        response= make_response(jsonify(response_dict), 200)
+        return  response
+    
+    
+    
+    
     def post(self):
         try:
             # Get JSON data and add to the database
@@ -108,6 +116,19 @@ class Payrolls(Resource):
             leave_deduction_rate = data.get('leave_deduction_rate')
             bonus_rate = data.get('bonus_rate')
             tax_deduction_rate = data.get('tax_deduction_rate')
+             
+            # Check if a payroll entry already exists for the given employee, month, and year
+            existing_payroll = Payroll.query.filter_by(
+                employee_id=employee_id,
+                month=month,
+                year=year
+            ).first()
+
+            if existing_payroll:
+                # Payroll entry already exists, return an error response
+                error_dict = {"error": "Payroll entry already exists for this employee, month, and year"}
+                response = make_response(jsonify(error_dict), 400)
+                return response
 
             # Fetch total worked hours for the specified month and year by employee ID 
             total_worked_hours = (
@@ -166,7 +187,7 @@ api.add_resource(PayrollsByID, '/payrolls/<int:id>')
 
 class Salaries(Resource):
     def get(self):
-        response_dict= [n.dict_() for n in Salary.query.all()]
+        response_dict= [n.to_dict() for n in Salary.query.all()]
         response= make_response(jsonify(response_dict), 200)
         return  response
     
@@ -201,7 +222,7 @@ class Salaries(Resource):
         payroll = Payroll.query.filter_by(employee_id=employee_id, month=month, year=year).first()
 
         # Validate constraints on rates
-        if not (5 <= employee.payrolls[0].hourly_rate <= 10 and 3 <= employee.payrolls[0].leave_deduction_rate <= 5 and employee.payrolls[0].bonus_rate < 3 and 6 <= employee.payrolls[0].tax_deduction_rate <= 8):
+        if not (50 <= employee.payrolls[0].hourly_rate <= 100 and 3 <= employee.payrolls[0].leave_deduction_rate <= 5 and employee.payrolls[0].bonus_rate < 3 and 6 <= employee.payrolls[0].tax_deduction_rate <= 8):
             return jsonify({'error': 'Invalid rate constraints'})
 
         # Adjust hourly rate based on position
@@ -238,6 +259,23 @@ class Salaries(Resource):
 
 api.add_resource(Salaries, '/salaries')
 
+
+class SalariesByID(Resource):
+    def delete(self,id):
+        res_id = Salary.query.get(id)
+        if not res_id:
+            return {"error": "Salary not found"}
+        else:
+            db.session.delete(res_id)
+            db.session.commit()
+
+            response = make_response(jsonify('Success: id deleted'))
+            return response
+        
+api.add_resource(SalariesByID, '/salaries/<int:id>')
+
+
+
 class AttendanceResource(Resource):
     def post(self):
         try:
@@ -255,6 +293,7 @@ class AttendanceResource(Resource):
                 return jsonify({'error': f"Employee with ID {employee_id} does not exist."}), 404
             
             # Validate hours worked
+            hours_worked = int(hours_worked)
             if hours_worked < 0 or hours_worked > 9:
                 return jsonify({'error': "Invalid hours_worked. It should be between 0 and 9."}), 400
 
@@ -300,4 +339,4 @@ api.add_resource(AttendanceResource, '/attendance')
 
 
 if __name__ == '__main__':
-    app.run(port=5554, debug=True)
+    app.run(port=5555, debug=True)
