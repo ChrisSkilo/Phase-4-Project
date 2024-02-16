@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import Navbar from '../Components/Navbar';
 
+<<<<<<< HEAD:project/client/src/Pages/AttendanceForm.js
+=======
 
+>>>>>>> main:client/src/Pages/AttendanceForm.js
 const AttendanceForm = () => {
   const [formData, setFormData] = useState({
     employee_id: "",
@@ -101,6 +104,81 @@ const AttendanceForm = () => {
 
   return (
     <>
+<<<<<<< HEAD:project/client/src/Pages/AttendanceForm.js
+      <Navbar />
+      <div className="container mt-5">
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label text-primary">
+              Employee ID:
+              <input
+                type="number"
+                className={`form-control ${errors.employee_id ? "is-invalid" : ""}`}
+                name="employee_id"
+                value={formData.employee_id}
+                onChange={handleChange}
+                required
+              />
+              {loading && <span className="loading">Checking employee existence...</span>}
+              {errors.employee_id && !loading && <div className="invalid-feedback">{errors.employee_id}</div>}
+            </label>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label text-success">
+              Date:
+              <input
+                type="date"
+                className={`form-control ${errors.date ? "is-invalid" : ""}`}
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+              />
+              {errors.date && <div className="invalid-feedback">{errors.date}</div>}
+            </label>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label text-danger">
+              Hours Worked:
+              <input
+                type="number"
+                className={`form-control ${errors.hours_worked ? "is-invalid" : ""}`}
+                name="hours_worked"
+                value={formData.hours_worked}
+                onChange={handleChange}
+                required
+              />
+              {errors.hours_worked && <div className="invalid-feedback">{errors.hours_worked}</div>}
+            </label>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label text-info">
+              Leave Taken:
+              <select
+                className="form-select"
+                name="leave_taken"
+                value={formData.leave_taken}
+                onChange={handleChange}
+              >
+                <option value={false}>False</option>
+                <option value={true}>True</option>
+              </select>
+            </label>
+          </div>
+
+          <button type="submit" className="btn btn-primary">Submit Attendance</button>
+        </form>
+      </div>
+    </>
+  );
+};
+
+export default AttendanceForm;
+
+=======
      <Navbar />
      <form onSubmit={handleSubmit}>
       <label>
@@ -159,3 +237,4 @@ const AttendanceForm = () => {
 };
 
 export default AttendanceForm;
+>>>>>>> main:client/src/Pages/AttendanceForm.js

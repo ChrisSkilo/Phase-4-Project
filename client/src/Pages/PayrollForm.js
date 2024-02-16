@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+<<<<<<< HEAD:project/client/src/Pages/PayrollForm.js
+import Navbar from '../Components/Navbar';
+=======
 import Navbar from '../Components/Navbar'
+>>>>>>> main:client/src/Pages/PayrollForm.js
 
 const PayrollForm = ({ onAddPayroll }) => {
   const [formData, setFormData] = useState({
@@ -117,6 +121,117 @@ const PayrollForm = ({ onAddPayroll }) => {
   };
 
   return (
+<<<<<<< HEAD:project/client/src/Pages/PayrollForm.js
+    <div className="container mt-4">
+      <Navbar />
+      <h2 className="mb-4">PAYROLL Form</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="employee_id" className="form-label">Employee ID:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.employee_id ? 'is-invalid' : ''}`}
+            id="employee_id"
+            name="employee_id"
+            value={formData.employee_id}
+            onChange={handleChange}
+            required
+          />
+          {errors.employee_id && <div className="invalid-feedback">{errors.employee_id}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="month" className="form-label">Month:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+            id="month"
+            name="month"
+            value={formData.month}
+            onChange={handleChange}
+            required
+          />
+          {errors.date && <div className="invalid-feedback">{errors.date}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="year" className="form-label">Year:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+            id="year"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            required
+          />
+          {errors.date && <div className="invalid-feedback">{errors.date}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="hourly_rate" className="form-label">Hourly Rate:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.hourly_rate ? 'is-invalid' : ''}`}
+            id="hourly_rate"
+            name="hourly_rate"
+            value={formData.hourly_rate}
+            onChange={handleChange}
+            required
+          />
+          {errors.hourly_rate && <div className="invalid-feedback">{errors.hourly_rate}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="leave_deduction_rate" className="form-label">Leave Deduction Rate:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.leave_deduction_rate ? 'is-invalid' : ''}`}
+            id="leave_deduction_rate"
+            name="leave_deduction_rate"
+            value={formData.leave_deduction_rate}
+            onChange={handleChange}
+            required
+          />
+          {errors.leave_deduction_rate && <div className="invalid-feedback">{errors.leave_deduction_rate}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="bonus_rate" className="form-label">Bonus Rate:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.bonus_rate ? 'is-invalid' : ''}`}
+            id="bonus_rate"
+            name="bonus_rate"
+            value={formData.bonus_rate}
+            onChange={handleChange}
+            required
+          />
+          {errors.bonus_rate && <div className="invalid-feedback">{errors.bonus_rate}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="tax_deduction_rate" className="form-label">Tax Deduction Rate:</label>
+          <input
+            type="text"
+            className={`form-control ${errors.tax_deduction_rate ? 'is-invalid' : ''}`}
+            id="tax_deduction_rate"
+            name="tax_deduction_rate"
+            value={formData.tax_deduction_rate}
+            onChange={handleChange}
+            required
+          />
+          {errors.tax_deduction_rate && <div className="invalid-feedback">{errors.tax_deduction_rate}</div>}
+        </div>
+
+        <button type="submit" className="btn btn-primary">Submit Payroll</button>
+      </form>
+    </div>
+  );
+};
+
+export default PayrollForm;
+=======
    <div>
     <Navbar/>
     <h2>PAYROLL Form</h2>
@@ -212,3 +327,4 @@ const PayrollForm = ({ onAddPayroll }) => {
 };
 
 export default PayrollForm;
+>>>>>>> main:client/src/Pages/PayrollForm.js

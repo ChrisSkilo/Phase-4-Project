@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+import Navbar from '../Components/Navbar';
+=======
 
+>>>>>>> main:client/src/Pages/SalaryForm.js
 
 const SalaryForm = ({ onCalculateSalary }) => {
   const [formData, setFormData] = useState({
@@ -57,9 +61,16 @@ const SalaryForm = ({ onCalculateSalary }) => {
       console.error("Error:", error.message);
     }
   };
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+
+  const validateForm = async (data) => {
+    const errors = {};
+
+=======
   const validateForm = async (data) => {
     const errors = {};
   
+>>>>>>> main:client/src/Pages/SalaryForm.js
     // Validate employee ID
     if (!data || !data.employee_id) {
       errors.employee_id = "Employee ID is required.";
@@ -74,7 +85,11 @@ const SalaryForm = ({ onCalculateSalary }) => {
         console.error("Error checking employee existence:", error);
       }
     }
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+
+=======
   
+>>>>>>> main:client/src/Pages/SalaryForm.js
     // Validate month and year
     if (!data || !data.month || !data.year) {
       errors.date = "Month and year are required.";
@@ -86,6 +101,18 @@ const SalaryForm = ({ onCalculateSalary }) => {
         errors.date = "Invalid month and year.";
       }
     }
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+
+    return errors;
+  };
+
+  return (
+    <div className="container mt-4">
+      <Navbar />
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="employee_id" className="form-label">Employee ID:</label>
+=======
   
     return errors;
   };
@@ -97,11 +124,22 @@ const SalaryForm = ({ onCalculateSalary }) => {
       <form onSubmit={handleSubmit}>
         <label>
           Employee ID:
+>>>>>>> main:client/src/Pages/SalaryForm.js
           <input
             type="number"
             name="employee_id"
             value={formData.employee_id}
             onChange={handleChange}
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+            className={`form-control ${errors.employee_id ? 'is-invalid' : ''}`}
+            required
+          />
+          {errors.employee_id && <div className="invalid-feedback">{errors.employee_id}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="month" className="form-label">Month:</label>
+=======
             required
           />
           {errors.employee_id && <span className="error">{errors.employee_id}</span>}
@@ -109,11 +147,22 @@ const SalaryForm = ({ onCalculateSalary }) => {
 
         <label>
           Month:
+>>>>>>> main:client/src/Pages/SalaryForm.js
           <input
             type="text"
             name="month"
             value={formData.month}
             onChange={handleChange}
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+            className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+            required
+          />
+          {errors.date && <div className="invalid-feedback">{errors.date}</div>}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="year" className="form-label">Year:</label>
+=======
             required
           />
           {errors.date && <span className="error">{errors.date}</span>}
@@ -121,20 +170,35 @@ const SalaryForm = ({ onCalculateSalary }) => {
 
         <label>
           Year:
+>>>>>>> main:client/src/Pages/SalaryForm.js
           <input
             type="text"
             name="year"
             value={formData.year}
             onChange={handleChange}
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
+            className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+            required
+          />
+          {errors.date && <div className="invalid-feedback">{errors.date}</div>}
+        </div>
+
+        <button type="submit" className="btn btn-primary">Calculate Salary</button>
+=======
             required
           />
           {errors.date && <span className="error">{errors.date}</span>}
         </label>
 
         <button type="submit">Calculate Salary</button>
+>>>>>>> main:client/src/Pages/SalaryForm.js
       </form>
     </div>
   );
 };
 
+<<<<<<< HEAD:project/client/src/Pages/SalaryForm.js
 export default SalaryForm;
+=======
+export default SalaryForm;
+>>>>>>> main:client/src/Pages/SalaryForm.js
