@@ -289,8 +289,8 @@ class AttendanceResource(Resource):
             date = datetime.strptime(date_str, "%Y-%m-%d").date()
 
             # Validate if the employee exists
-            if not employee_id:
-                return jsonify({'error': f"Employee with ID {employee_id} does not exist."}), 404
+            if not employee_id or employee_id.strip() == '':
+               return jsonify({'error': f"Employee with ID {employee_id} does not exist."}), 404
             
             # Validate hours worked
             hours_worked = int(hours_worked)
