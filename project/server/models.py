@@ -1,24 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+# from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import CheckConstraint
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
 
 db = SQLAlchemy()
 
-class User(db.Model):
-    __tablename__ = 'users'
-
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
 
 
 
@@ -59,7 +46,7 @@ class Payroll(db.Model, SerializerMixin):
     month = db.Column(db.Integer, nullable=False)
     year = db.Column(db.Integer, nullable=False)
     total_hours_worked = db.Column(db.Float, nullable=False)
-    hourly_rate = db.Column(db.Float, CheckConstraint('hourly_rate >= 5 AND hourly_rate <= 10'), nullable=False)
+    hourly_rate = db.Column(db.Float, CheckConstraint('hourly_rate >= 50 AND hourly_rate <= 100'), nullable=False)
     leave_deduction_rate = db.Column(db.Float, CheckConstraint('leave_deduction_rate >= 3 AND leave_deduction_rate <= 5'), nullable=False)
     bonus_rate = db.Column(db.Float, CheckConstraint('bonus_rate < 3'), nullable=False)
     tax_deduction_rate = db.Column(db.Float, CheckConstraint('tax_deduction_rate >= 6 AND tax_deduction_rate <= 8'), default=0.0, nullable=False)
@@ -106,20 +93,23 @@ class Attendance(db.Model, SerializerMixin):
     
     @validates('hours_worked')
     def validate_hours_worked(self, key, hours_worked):
-        if hours_worked < 0 or hours_worked > 9:
+        hours_worked_int = int(hours_worked)
+
+        if hours_worked_int < 0 or hours_worked_int > 9:
             raise ValueError("Invalid hours_worked. It should be between 0 and 9.")
-        return hours_worked
+
+        return hours_worked_int
 
 
 
-    def serialize(self):
-        return {
-            'id':self.id,
-            'date': self.date,
-            'hours_worked': self.hours_worked,
-            'leave_taken': self.leave_taken,
-            'employee_id': self.employee_id
-        }
+    # def serialize(self):
+    #     return {
+    #         'id':self.id,
+    #         'date': self.date,
+    #         'hours_worked': self.hours_worked,
+    #         'leave_taken': self.leave_taken,
+    #         'employee_id': self.employee_id
+    #     }
 
 
            #SALARY MODEL 
