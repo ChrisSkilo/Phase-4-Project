@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import Navbar from '../Components/Navbar';
 
-<<<<<<< HEAD:project/client/src/Pages/AttendanceForm.js
-=======
-
->>>>>>> main:client/src/Pages/AttendanceForm.js
 const AttendanceForm = () => {
   const [formData, setFormData] = useState({
     employee_id: "",
@@ -104,7 +100,6 @@ const AttendanceForm = () => {
 
   return (
     <>
-<<<<<<< HEAD:project/client/src/Pages/AttendanceForm.js
       <Navbar />
       <div className="container mt-5">
         <form onSubmit={handleSubmit}>
@@ -178,63 +173,4 @@ const AttendanceForm = () => {
 
 export default AttendanceForm;
 
-=======
-     <Navbar />
-     <form onSubmit={handleSubmit}>
-      <label>
-        Employee ID:
-        <input
-          type="number"
-          name="employee_id"
-          value={formData.employee_id}
-          onChange={handleChange}
-          required
-        />
-        {loading && <span className="loading">Checking employee existence...</span>}
-        {errors.employee_id && !loading && <span className="error">{errors.employee_id}</span>}
-      </label>
-
-      <label>
-        Date:
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          required
-        />
-        {errors.date && <span className="error">{errors.date}</span>}
-      </label>
-
-      <label>
-        Hours Worked:
-        <input
-          type="number"
-          name="hours_worked"
-          value={formData.hours_worked}
-          onChange={handleChange}
-          required
-        />
-        {errors.hours_worked && <span className="error">{errors.hours_worked}</span>}
-      </label>
-
-      <label>
-        Leave Taken:
-        <select
-          name="leave_taken"
-          value={formData.leave_taken}
-          onChange={handleChange}
-        >
-          <option value={false}>False</option>
-          <option value={true}>True</option>
-        </select>
-      </label>
-
-      <button type="submit">Submit Attendance</button>
-    </form>
-   </>
-  );
-};
-
-export default AttendanceForm;
->>>>>>> main:client/src/Pages/AttendanceForm.js
+     

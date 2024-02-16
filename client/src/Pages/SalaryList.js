@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import SalaryForm from "./SalaryForm";
-import Navbar from '../Components/Navbar'
+import Navbar from '../Components/Navbar';
 
 function SalaryList() {
   const [salaries, setSalaries] = useState([]);
-<<<<<<< HEAD:project/client/src/Pages/SalaryList.js
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,39 +24,23 @@ function SalaryList() {
     };
 
     fetchData();
-=======
-
-  useEffect(() => {
-    // Fetch the list of salaries with related employee details
-    fetch("/salaries")
-      .then((response) => response.json())
-      .then((data) => {
-        setSalaries(data);
-      })
-      .catch((error) => console.error("Error fetching salaries:", error));
->>>>>>> main:client/src/Pages/SalaryList.js
   }, []);
 
   // Function to handle adding a new salary to the list
   function handleAddSalary(newSalary) {
-<<<<<<< HEAD:project/client/src/Pages/SalaryList.js
     setSalaries([...salaries, newSalary]);
   }
 
-=======
-    if (salaries)
-    setSalaries([...salaries, newSalary]);
-  }
-  console.log(salaries)
->>>>>>> main:client/src/Pages/SalaryList.js
   return (
     <div>
-      <Navbar />
-      <h2>Salary Form And List</h2>
+      
+      
 
       {/* Pass prop to SalaryForm */}
+      <Navbar />
+      <h2>Salary Form And List</h2>
       <SalaryForm onCalculateSalary={handleAddSalary} />
-<<<<<<< HEAD:project/client/src/Pages/SalaryList.js
+      
 
       {/* Display loading indicator */}
       {loading && <p>Loading salaries...</p>}
@@ -75,9 +58,8 @@ function SalaryList() {
           ))}
         </div>
       )}
-=======
-      
-      {/* Display the list of salaries */}
+
+      {/* Display the list of salaries in an HTML table */}
       <table>
         <thead>
           <tr>
@@ -94,14 +76,8 @@ function SalaryList() {
           ))}
         </tbody>
       </table>
->>>>>>> main:client/src/Pages/SalaryList.js
     </div>
   );
 }
 
-<<<<<<< HEAD:project/client/src/Pages/SalaryList.js
 export default SalaryList;
-=======
-
-export default SalaryList;
->>>>>>> main:client/src/Pages/SalaryList.js
