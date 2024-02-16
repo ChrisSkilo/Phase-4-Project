@@ -1,8 +1,8 @@
 """created tables
 
-Revision ID: b65174f9b241
+Revision ID: ed3eadf87f17
 Revises: 
-Create Date: 2024-02-08 09:16:58.510639
+Create Date: 2024-02-15 15:10:27.874810
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b65174f9b241'
+revision = 'ed3eadf87f17'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,15 +24,6 @@ def upgrade():
     sa.Column('department', sa.String(length=255), nullable=False),
     sa.Column('position', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('users',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('username', sa.String(length=50), nullable=False),
-    sa.Column('email', sa.String(length=120), nullable=False),
-    sa.Column('password_hash', sa.String(length=128), nullable=False),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('username')
     )
     op.create_table('attendance',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -71,6 +62,5 @@ def downgrade():
     op.drop_table('salaries')
     op.drop_table('payrolls')
     op.drop_table('attendance')
-    op.drop_table('users')
     op.drop_table('employees')
     # ### end Alembic commands ###

@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+<<<<<<< HEAD:project/client/src/Pages/PayrollForm.js
 import Navbar from '../Components/Navbar';
+=======
+import Navbar from '../Components/Navbar'
+>>>>>>> main:client/src/Pages/PayrollForm.js
 
 const PayrollForm = ({ onAddPayroll }) => {
   const [formData, setFormData] = useState({
@@ -117,6 +121,7 @@ const PayrollForm = ({ onAddPayroll }) => {
   };
 
   return (
+<<<<<<< HEAD:project/client/src/Pages/PayrollForm.js
     <div className="container mt-4">
       <Navbar />
       <h2 className="mb-4">PAYROLL Form</h2>
@@ -226,3 +231,100 @@ const PayrollForm = ({ onAddPayroll }) => {
 };
 
 export default PayrollForm;
+=======
+   <div>
+    <Navbar/>
+    <h2>PAYROLL Form</h2>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Employee ID:
+        <input
+          type="text"
+          name="employee_id"
+          value={formData.employee_id}
+          onChange={handleChange}
+          required
+        />
+        {errors.employee_id && <span className="error">{errors.employee_id}</span>}
+      </label>
+
+      <label>
+        Month:
+        <input
+          type="text"
+          name="month"
+          value={formData.month}
+          onChange={handleChange}
+          required
+        />
+        {errors.date && <span className="error">{errors.date}</span>}
+      </label>
+
+      <label>
+        Year:
+        <input
+          type="text"
+          name="year"
+          value={formData.year}
+          onChange={handleChange}
+          required
+        />
+        {errors.date && <span className="error">{errors.date}</span>}
+      </label>
+
+      <label>
+        Hourly Rate:
+        <input
+          type="text"
+          name="hourly_rate"
+          value={formData.hourly_rate}
+          onChange={handleChange}
+          required
+        />
+        {errors.hourly_rate && <span className="error">{errors.hourly_rate}</span>}
+      </label>
+
+      <label>
+        Leave Deduction Rate:
+        <input
+          type="text"
+          name="leave_deduction_rate"
+          value={formData.leave_deduction_rate}
+          onChange={handleChange}
+          required
+        />
+        {errors.leave_deduction_rate && <span className="error">{errors.leave_deduction_rate}</span>}
+      </label>
+
+      <label>
+        Bonus Rate:
+        <input
+          type="text"
+          name="bonus_rate"
+          value={formData.bonus_rate}
+          onChange={handleChange}
+          required
+        />
+        {errors.bonus_rate && <span className="error">{errors.bonus_rate}</span>}
+      </label>
+
+      <label>
+        Tax Deduction Rate:
+        <input
+          type="text"
+          name="tax_deduction_rate"
+          value={formData.tax_deduction_rate}
+          onChange={handleChange}
+          required
+        />
+        {errors.tax_deduction_rate && <span className="error">{errors.tax_deduction_rate}</span>}
+      </label>
+
+      <button type="submit">Submit Payroll</button>
+    </form>
+   </div>
+  );
+};
+
+export default PayrollForm;
+>>>>>>> main:client/src/Pages/PayrollForm.js
